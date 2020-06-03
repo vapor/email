@@ -1,4 +1,3 @@
-// Perhaps protocol "Emailable" could be added to content that has a email field and optional name field?
 public protocol Emailable {
     static var emailKeyPath: KeyPath<Self, String> { get }
     static var nameKeyPath: KeyPath<Self, String?>? { get }
