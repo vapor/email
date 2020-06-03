@@ -39,7 +39,7 @@ extension Application {
         
         public var client: EmailClient {
             guard let factory = self.storage.makeEmailClient else {
-                fatalError("EmailClient is not configured, please use: app.emails.use")
+                fatalError("EmailClient is not configured, use: app.emails.use()")
             }
             
             return factory(application)
