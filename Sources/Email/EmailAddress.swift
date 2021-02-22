@@ -10,6 +10,15 @@ public struct EmailAddress: Content {
     }
 }
 
+extension EmailAddress: CustomStringConvertible {
+    public var description: String {
+        if let name = self.name {
+            return "\(name) <\(email)>"
+        }
+        return email
+    }
+}
+
 extension EmailAddress: EmailAddressRepresentable {}
 
 extension EmailAddress: ExpressibleByStringLiteral {

@@ -1,9 +1,19 @@
 import Vapor
 
-public struct EmailMessage {
-    public enum Content {
-        case text(String)
-        case html(String)
+public struct EmailMessage: Vapor.Content {
+    public struct Content: Vapor.Content {
+        public let html: String?
+        public let text: String?
+        
+        public init(html: String, text: String? = nil) {
+            self.html = html
+            self.text = text
+        }
+        
+        public init(html: String? = nil, text: String) {
+            self.html = html
+            self.text = text
+        }
     }
     
     public let from: EmailAddress
@@ -12,7 +22,7 @@ public struct EmailMessage {
     public let cc: [EmailAddress]?
     public let bcc: [EmailAddress]?
     public let subject: String
-    public let contents: [Content]
+    public let content: Content
     // attachments
     // inline attachments
     
@@ -23,7 +33,7 @@ public struct EmailMessage {
         cc: [EmailAddress]? = nil,
         bcc: [EmailAddress]? = nil,
         subject: String,
-        contents: [Content]
+        content: Content
     ) {
         self.from = from
         self.to = to
@@ -31,7 +41,7 @@ public struct EmailMessage {
         self.cc = cc
         self.bcc = bcc
         self.subject = subject
-        self.contents = contents
+        self.content = content
     }
     
     public init(
@@ -41,9 +51,9 @@ public struct EmailMessage {
         cc: [EmailAddress]? = nil,
         bcc: [EmailAddress]? = nil,
         subject: String,
-        contents: [Content]
+        content: Content
     ) {
-        self.init(from: from, to: [to], replyTo: replyTo, cc: cc, bcc: bcc, subject: subject, contents: contents)
+        self.init(from: from, to: [to], replyTo: replyTo, cc: cc, bcc: bcc, subject: subject, content: content)
     }
     
     public init<E>(
@@ -53,7 +63,7 @@ public struct EmailMessage {
         cc: [EmailAddress]? = nil,
         bcc: [EmailAddress]? = nil,
         subject: String,
-        contents: [Content]
+        content: Content
     )
         where E: EmailAddressRepresentable
     {
@@ -64,6 +74,6 @@ public struct EmailMessage {
             cc: cc,
             bcc: bcc,
             subject: subject,
-            contents: contents)
+            content: content)
     }
 }
