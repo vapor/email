@@ -1,9 +1,9 @@
-public protocol Emailable {
+public protocol EmailAddressRepresentable {
     static var emailKeyPath: KeyPath<Self, String> { get }
     static var nameKeyPath: KeyPath<Self, String?>? { get }
 }
 
-extension Emailable {
+extension EmailAddressRepresentable {
     static var nameKeyPath: KeyPath<Self, String>? {
         nil
     }

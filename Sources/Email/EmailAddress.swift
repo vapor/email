@@ -10,7 +10,7 @@ public struct EmailAddress: Content {
     }
 }
 
-extension EmailAddress: Emailable {
+extension EmailAddress: EmailAddressRepresentable {
     public static var emailKeyPath: KeyPath<EmailAddress, String> {
         \.email
     }
@@ -23,26 +23,20 @@ extension EmailAddress: Emailable {
 extension EmailAddress: ExpressibleByStringLiteral {
     public init(stringLiteral value: String) {
         // "From: $Name <$Email>"
-        let regex = try? NSRegularExpression(pattern: #"([a-zA-Z\s]*) <([a-zA-Z@.]*)>$"#, options: .caseInsensitive)
-        
-        guard let match = regex?.firstMatch(in: value, options: [], range: .init(location: 0, length: value.utf16.count)) else {
+        let split = value.components(separatedBy: " <")
+        guard let name = split.first else {
+            self = .init(email: value)
+            return
+        }
+        guard var emailPart = split.last else {
+            self = .init(email: value)
+            return
+        }
+        guard emailPart.removeLast() == ">" else {
             self = .init(email: value)
             return
         }
         
-        guard let nameRange = Range(match.range(at: 1), in: value) else {
-            self = .init(email: value)
-            return
-        }
-        
-        guard let emailRange = Range(match.range(at: 2), in: value) else {
-                self = .init(email: value)
-                return
-        }
-        
-        let email = String(value[emailRange])
-        let name = String(value[nameRange])
-        
-        self = EmailAddress(email: email, name: name)
+        self = .init(email: emailPart, name: name)
     }
 }

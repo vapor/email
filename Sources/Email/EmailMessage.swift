@@ -1,14 +1,18 @@
 import Vapor
 
-public struct VaporEmail: Content {
+public struct EmailMessage {
+    public enum Content {
+        case text(String)
+        case html(String)
+    }
+    
     public let from: EmailAddress
     public let to: [EmailAddress]
     public let replyTo: EmailAddress?
     public let cc: [EmailAddress]?
     public let bcc: [EmailAddress]?
     public let subject: String
-    public let text: String
-    public let html: String?
+    public let contents: [Content]
     // attachments
     // inline attachments
     
@@ -19,8 +23,7 @@ public struct VaporEmail: Content {
         cc: [EmailAddress]? = nil,
         bcc: [EmailAddress]? = nil,
         subject: String,
-        text: String,
-        html: String? = nil
+        contents: [Content]
     ) {
         self.from = from
         self.to = to
@@ -28,8 +31,7 @@ public struct VaporEmail: Content {
         self.cc = cc
         self.bcc = bcc
         self.subject = subject
-        self.text = text
-        self.html = html
+        self.contents = contents
     }
     
     public init(
@@ -39,10 +41,9 @@ public struct VaporEmail: Content {
         cc: [EmailAddress]? = nil,
         bcc: [EmailAddress]? = nil,
         subject: String,
-        text: String,
-        html: String? = nil
+        contents: [Content]
     ) {
-        self.init(from: from, to: [to], replyTo: replyTo, cc: cc, bcc: bcc, subject: subject, text: text, html: html)
+        self.init(from: from, to: [to], replyTo: replyTo, cc: cc, bcc: bcc, subject: subject, contents: contents)
     }
     
     public init<E>(
@@ -52,19 +53,17 @@ public struct VaporEmail: Content {
         cc: [EmailAddress]? = nil,
         bcc: [EmailAddress]? = nil,
         subject: String,
-        text: String,
-        html: String? = nil
+        contents: [Content]
     )
-        where E: Emailable
+        where E: EmailAddressRepresentable
     {
-        self.init(from: from,
-                  to: to.map { $0.emailAddress },
-                  replyTo: replyTo,
-                  cc: cc,
-                  bcc: bcc,
-                  subject: subject,
-                  text: text,
-                  html: html
-        )
+        self.init(
+            from: from,
+            to: to.map { $0.emailAddress },
+            replyTo: replyTo,
+            cc: cc,
+            bcc: bcc,
+            subject: subject,
+            contents: contents)
     }
 }
