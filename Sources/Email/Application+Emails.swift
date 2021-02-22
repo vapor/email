@@ -10,7 +10,7 @@ extension Application {
             }
         }
         
-        public let application: Application
+        let application: Application
         
         final class Storage {
             var makeEmailClient: ((Application) -> EmailClient)?
@@ -35,6 +35,10 @@ extension Application {
         
         public func use(_ makeEmailClient: @escaping ((Application) -> EmailClient)) {
             self.storage.makeEmailClient = makeEmailClient
+        }
+        
+        public func use(_ provider: Provider) {
+            provider.run(application)
         }
         
         public var client: EmailClient {
