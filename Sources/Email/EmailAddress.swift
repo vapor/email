@@ -10,10 +10,7 @@ public struct EmailAddress: Content {
     }
 }
 
-extension EmailAddress: EmailAddressRepresentable {
-    public var emailName: String? { name }
-    public var emailAddress: String { email }
-}
+extension EmailAddress: EmailAddressRepresentable {}
 
 extension EmailAddress: ExpressibleByStringLiteral {
     public init(stringLiteral value: String) {
