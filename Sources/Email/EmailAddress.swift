@@ -11,13 +11,8 @@ public struct EmailAddress: Content {
 }
 
 extension EmailAddress: EmailAddressRepresentable {
-    public static var emailKeyPath: KeyPath<EmailAddress, String> {
-        \.email
-    }
-    
-    public static var nameKeyPath: KeyPath<EmailAddress, String?>? {
-        \.name
-    }
+    public var emailName: String? { name }
+    public var emailAddress: String { email }
 }
 
 extension EmailAddress: ExpressibleByStringLiteral {

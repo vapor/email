@@ -1,6 +1,6 @@
 public protocol EmailAddressRepresentable {
-    static var emailKeyPath: KeyPath<Self, String> { get }
-    static var nameKeyPath: KeyPath<Self, String?>? { get }
+    var emailAddress: String { get }
+    var emailName: String? { get }
 }
 
 extension EmailAddressRepresentable {
@@ -9,10 +9,10 @@ extension EmailAddressRepresentable {
     }
     
     var emailAddress: EmailAddress {
-        if let nameKeyPath = Self.nameKeyPath {
-            return .init(email: self[keyPath: Self.emailKeyPath], name: self[keyPath: nameKeyPath])
+        if let name = self.emailName {
+            return .init(email: self.emailAddress, name: name)
         } else {
-            return .init(email: self[keyPath: Self.emailKeyPath])
+            return .init(email: self.emailAddress)
         }
     }
 }
