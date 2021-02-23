@@ -1,6 +1,6 @@
 import Vapor
 
-public struct EmailAddress: Content {
+public struct EmailAddress: Content, Equatable {
     public let email: String
     public let name: String?
     
