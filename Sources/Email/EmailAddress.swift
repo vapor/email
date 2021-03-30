@@ -8,14 +8,19 @@ public struct EmailAddress: Content, Equatable {
         self.email = email
         self.name = name
     }
-}
-
-extension EmailAddress: CustomStringConvertible {
-    public var description: String {
+    
+    /// Returns the email address formated as "Name <email@email.com>"
+    public var fullAddress: String {
         if let name = self.name {
             return "\(name) <\(email)>"
         }
         return email
+    }
+}
+
+extension EmailAddress: CustomStringConvertible {
+    public var description: String {
+        self.fullAddress
     }
 }
 
@@ -25,15 +30,10 @@ extension EmailAddress: ExpressibleByStringLiteral {
     public init(stringLiteral value: String) {
         // "From: $Name <$Email>"
         let split = value.components(separatedBy: " <")
-        guard let name = split.first else {
-            self = .init(email: value)
-            return
-        }
-        guard var emailPart = split.last else {
-            self = .init(email: value)
-            return
-        }
-        guard emailPart.removeLast() == ">" else {
+        guard let name = split.first,
+              var emailPart = split.last,
+              emailPart.removeLast() == ">"
+        else {
             self = .init(email: value)
             return
         }
