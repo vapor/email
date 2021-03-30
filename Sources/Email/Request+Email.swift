@@ -1,7 +1,7 @@
 import Vapor
 
 extension Request {
-    var email: EmailClient {
+    public var email: EmailClient {
         application.email.delegating(to: eventLoop)
     }
 }
