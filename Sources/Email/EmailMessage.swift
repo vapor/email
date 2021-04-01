@@ -123,7 +123,7 @@ public struct EmailMessage: Codable {
     {
         self.init(
             from: from,
-            to: to.map { $0.emailAddress },
+            to: to.map { $0.emailAddress.fullAddress },
             replyTo: replyTo,
             cc: cc,
             bcc: bcc,

@@ -24,8 +24,6 @@ extension EmailAddress: CustomStringConvertible {
     }
 }
 
-extension EmailAddress: EmailAddressRepresentable {}
-
 extension EmailAddress: ExpressibleByStringLiteral {
     public init(stringLiteral value: String) {
         // "From: $Name <$Email>"
