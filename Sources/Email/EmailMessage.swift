@@ -1,6 +1,6 @@
 import Vapor
 
-public struct EmailMessage: Codable {
+public struct EmailMessage: Codable, Equatable {
     public let from: EmailAddress
     public let to: [EmailAddress]
     public let replyTo: EmailAddress?
