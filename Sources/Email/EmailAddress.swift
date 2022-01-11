@@ -28,9 +28,11 @@ extension EmailAddress: ExpressibleByStringLiteral {
     public init(stringLiteral value: String) {
         // "From: $Name <$Email>"
         let split = value.components(separatedBy: " <")
-        guard let name = split.first,
-              var emailPart = split.last,
-              emailPart.removeLast() == ">"
+        guard
+            split.count == 2,
+            let name = split.first,
+            var emailPart = split.last,
+            emailPart.removeLast() == ">"
         else {
             self = .init(email: value)
             return
