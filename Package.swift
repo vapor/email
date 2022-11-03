@@ -1,16 +1,16 @@
-// swift-tools-version:5.5
+// swift-tools-version:5.6
 import PackageDescription
 
 let package = Package(
     name: "email",
     platforms: [
-        .macOS(.v10_15)
+        .macOS(.v12),
     ],
     products: [
         .library(name: "Email", targets: ["Email"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/vapor/vapor.git", from: "4.0.0")
+        .package(url: "https://github.com/vapor/vapor.git", from: "4.66.1"),
     ],
     targets: [
         .target(name: "Email", dependencies: [
